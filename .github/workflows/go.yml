@@ -17,7 +17,8 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: install imagemagik
-      run: sudo apt-get install -qy pkg-config imagemagick libmagickwand-dev libmagickcore-dev 
+      run: |
+        sudo apt-get install -qy pkg-config imagemagick libmagickwand-dev libmagickcore-dev 
 
     - name: Set up Go
       uses: actions/setup-go@v4
@@ -26,7 +27,8 @@ jobs:
 
     - name: Build
       run: |
-        # go get gopkg.in/gographics/imagick.v2/imagick
+        export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+        go get -u gopkg.in/gographics/imagick.v3/imagick
         CGO_ENABLED=1 CGO_CFLAGS="$(pkg-config --cflags MagickWand)" CGO_LDFLAGS="$(pkg-config --libs MagickWand)" go build -v ./...
 
     - name: Test
