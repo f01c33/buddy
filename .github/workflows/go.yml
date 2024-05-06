@@ -25,7 +25,10 @@ jobs:
         go-version: '1.20'
 
     - name: Build
-      run: go build -v ./...
+      run: 
+        export CGO_CFLAGS="$(pkg-config --cflags MagickWand)"
+        export CGO_LDFLAGS="$(pkg-config --libs MagickWand)"
+        go build -v ./... -tags no_pkgconfig
 
     - name: Test
       run: go test -v ./...
