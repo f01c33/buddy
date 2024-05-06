@@ -26,6 +26,7 @@ jobs:
 
     - name: Build
       run: |
+        go get gopkg.in/gographics/imagick.v2/imagick
         export CGO_CFLAGS="$(pkg-config --cflags MagickWand)"
         export CGO_LDFLAGS="$(pkg-config --libs MagickWand)"
         go build -v ./...
